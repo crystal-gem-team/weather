@@ -1,13 +1,34 @@
-import React, {useState} from 'react';
-import { createSwitchNavigator, createAppContainer, NavigationActions } from '@react-navigation/native'
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react-native';
+// import React, {useState} from 'react';
+// import { createSwitchNavigator, createAppContainer, NavigationActions } from '@react-navigation/native'
+// import { StatusBar } from 'expo-status-bar';
+// import { StyleSheet, Text, View, Button } from 'react-native';
 
+// import Home from './Components/Home';
+// import Login from './Components/Login';
+
+
+
+// function App() {
+//   return (
+//     <View style={styles.container}>
+//       <Text>Welcome to Funshine!</Text>
+//       <Home/>
+//       <StatusBar style="auto" />
+//     </View>
+//   )
+//   }
+  
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet } from 'react-native';
+import { Homepage } from './Routes/Homepage';
+import { withAuthenticator } from 'aws-amplify-react-native';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import config from "./src/aws-exports";
-import Home from './Components/Home';
-import Login from './Components/Login';
+
+
 Amplify.configure({
   ...config,
   Analytics: {
@@ -16,24 +37,48 @@ Amplify.configure({
 });
 
 
-function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Welcome to Funshine!</Text>
-      <Home/>
-      <StatusBar style="auto" />
-    </View>
-  )
-  }
-  
-
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    color: 'black',
+  },
+  button: {
+    backgroundColor: '#ff9900',
+    padding: 10,
+    borderRadius: 6,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+  },
 });
+
+const Stack = createNativeStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+
+        <Stack.Screen name='Main' component={Homepage} options={{ title: 'fun.shine' }} />
+      </Stack.Navigator>
+      <StatusBar style='auto' />
+    </NavigationContainer>
+  );
+}
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
 
 export default withAuthenticator(App);
