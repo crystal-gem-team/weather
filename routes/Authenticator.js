@@ -1,9 +1,9 @@
 import { Button, View } from 'react-native';
-import { styles } from '../App';
+//import { styles } from '../App';
 
 export const Authenticator = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <View>
       <Button title='Go to Main' onPress={() => navigation.navigate('Main')} />
     </View>
   );

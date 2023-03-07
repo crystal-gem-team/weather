@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { styles } from '../App';
+// import { styles } from '../App';
+import styled from 'styled-components/native';
+
+const Title = styled.Text`
+  color: red;
+`;
+
 
 export const Homepage = () => {
   const [weatherData, setWeatherData] = useState({});
@@ -17,9 +23,9 @@ export const Homepage = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Current Temperature: </Text>
-      <Text style={styles.text}>{weatherData.main ? weatherData.main.temp : '...loading'} </Text>
+    <View>
+      <Title>Current Temperature: </Title>
+      <Title>{weatherData.main ? weatherData.main.temp : '...loading'} </Title>
     </View>
   );
 };

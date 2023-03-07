@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 import { Authenticator } from './routes/Authenticator';
 import { Homepage } from './routes/Homepage';
 
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
