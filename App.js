@@ -2,8 +2,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
-import { Authenticator } from './routes/Authenticator';
-import { Homepage } from './routes/Homepage';
+import { Homepage } from './Routes/Homepage';
+import { withAuthenticator } from 'aws-amplify-react-native';
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import config from './src/aws-exports';
+
+Amplify.configure({
+  ...config,
+  Analytics: {
+    disabled: true,
+  },
+});
 
 export const styles = StyleSheet.create({
   container: {
@@ -15,28 +24,28 @@ export const styles = StyleSheet.create({
   text: {
     color: 'white',
   },
+  button: {
+    backgroundColor: '#ff9900',
+    padding: 10,
+    borderRadius: 6,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+  },
 });
 
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name='Start' component={Authenticator} options={{ title: 'Starting' }} /> */}
-        <Stack.Screen
-          name='Main'
-          component={Homepage}
-          options={{
-            title: 'fun.shine',
-            headerTintColor: '#fff',
-            headerStyle: {
-              backgroundColor: '#225350',
-            },
-          }}
-        />
+        <Stack.Screen name='Main' component={Homepage} options={{ title: 'fun.shine' }} />
       </Stack.Navigator>
       <StatusBar style='auto' />
     </NavigationContainer>
   );
 }
+
+export default withAuthenticator(App);
