@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, StatusBar } from 'react-native';
 import { Auth } from 'aws-amplify';
-// import { withAuthenticator } from 'aws-amplify-react-native';
 
 
 export default function Login() {
