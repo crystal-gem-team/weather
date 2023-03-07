@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { Text, View, Pressable } from 'react-native';
 import { Auth } from 'aws-amplify';
 import { styles } from '../App';
+import { Settings } from './Settings';
 
 export const Homepage = () => {
   const [weatherData, setWeatherData] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   const signOut = async () => {
     try {
@@ -20,18 +22,28 @@ export const Homepage = () => {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setWeatherData(data);
       });
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Pressable style={styles.button} onPress={() => signOut()}>
-        <Text style={styles.buttonText}>Sign out</Text>
+    <View>
+      <Pressable onPress={() => signOut()}>
+        <Text>Sign out</Text>
       </Pressable>
-      <Text style={styles.text}>Current Temperature: </Text>
-      <Text style={styles.text}>{weatherData.main ? weatherData.main.temp : '...loading'} </Text>
+      <Text>Current Temperature: </Text>
+      <Text>{weatherData.main ? weatherData.main.temp : '...loading'} </Text>
+      <Pressable
+        onPress={() => setModalVisible(!modalVisible)}>
+          <Text>Settings</Text>
+      </Pressable>
+      { modalVisible ? <Settings>
+        <Pressable
+        onPress={() => setModalVisible(!modalVisible)}>
+          <Text>Hide Settings</Text>
+        </Pressable>
+      </Settings> : null }
     </View>
   );
 };

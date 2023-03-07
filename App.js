@@ -7,7 +7,6 @@ import { withAuthenticator } from 'aws-amplify-react-native';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import config from "./src/aws-exports";
 
-
 Amplify.configure({
   ...config,
   Analytics: {
@@ -15,27 +14,6 @@ Amplify.configure({
   },
 });
 
-
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    color: 'black',
-  },
-  button: {
-    backgroundColor: '#ff9900',
-    padding: 10,
-    borderRadius: 6,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-  },
-});
 
 const Stack = createNativeStackNavigator();
 
