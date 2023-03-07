@@ -1,24 +1,3 @@
-// import React, {useState} from 'react';
-// import { createSwitchNavigator, createAppContainer, NavigationActions } from '@react-navigation/native'
-// import { StatusBar } from 'expo-status-bar';
-// import { StyleSheet, Text, View, Button } from 'react-native';
-
-// import Home from './Components/Home';
-// import Login from './Components/Login';
-
-
-
-// function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Welcome to Funshine!</Text>
-//       <Home/>
-//       <StatusBar style="auto" />
-//     </View>
-//   )
-//   }
-  
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
