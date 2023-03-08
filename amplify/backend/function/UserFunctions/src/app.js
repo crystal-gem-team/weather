@@ -10,6 +10,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 const axios = require('axios');
+const AWS = require('aws-sdk');
+
+
 
 // declare a new express app
 const app = express();
@@ -22,6 +25,25 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Headers', '*');
   next();
 });
+
+app.get('/user/test', (req, res) => {
+  const docClient = new AWS.DynamoDB.DocumentClient();
+  const params = {
+    TableName: 'Funshine',
+    Key: {
+      'funshine': 'activity'
+    }
+
+  };
+  docClient.get(params, (err, data) => {
+    if (err) {
+      console.log('Error finding user:', err);
+    } else {
+      console.log('User found successfully:', data.Item.activity['rainy,hot'][0]);
+      res.json(data);
+    }
+  });
+})
 
 app.get('/user/weather', async function (req, res) {
   try {
