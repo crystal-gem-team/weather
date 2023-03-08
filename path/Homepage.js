@@ -9,7 +9,7 @@ import { WEATHER_THEME, PLACEHOLDER_WEATHER, PLACEHOLDER_USER } from '../utils/w
 import { Date } from '../component/Date';
 import { WeatherType } from '../component/WeatherType';
 import { WeatherTemp } from '../component/WeatherTemp';
-import { Footer, SettingsdButton, SettingsIcon } from '../component/Footer';
+import { Footer, PrimaryButton, SettingsdButton, SettingsIcon, TextButton } from '../component/Footer';
 import { Settings } from '../path/Settings';
 import settingsIcon from '../assets/settings.png';
 import styled from 'styled-components';
@@ -37,18 +37,30 @@ export const Homepage = () => {
   const [weatherTheme, setWeatherTheme] = useState(WEATHER_THEME.Default);
   const [isModal, setModal] = useState(false);
   const [username, setUsername] = useState('');
+  const [acts, setActs] = useState([]);
 
   useEffect(() => {
+    let type2;
     Auth.currentAuthenticatedUser()
       .then((session) => {
         setUsername(session.username);
-        API.get('funshineAPI', '/user/weather', {queryStringParameters: {user: session.username}})
+        API.get('funshineAPI', '/user/weather', { queryStringParameters: { user: session.username } })
           .then((data) => {
             console.log('got this from the API, ', data)
-            setWeatherData(data), setWeatherTheme(WEATHER_THEME[weatherData.type]);
+            // setWeatherData(data), setWeatherTheme(WEATHER_THEME[weatherData.type]);
+            API.get('funshineAPI', '/user/activity')
+              .then((activity) => {
+                if (data.type === 'Clouds') {
+                  type2 = 'cloudy'
+                }
+                console.log('activities are: ', activity.Item.activity[`cloudy,mild`][Math.floor(Math.random() * 5)]);
+                setWeatherData({ ...data, suggestions: activity.Item.activity[`cloudy,mild`][Math.floor(Math.random() * 5)] })
+                setActs(activity.Item.activity[`cloudy,mild`]);
+                
+            })
           })
           .catch((error) => console.log(error));
-    })
+      });
     
   }, []);
 
@@ -74,12 +86,29 @@ export const Homepage = () => {
             {weatherData.temp + '°'}
           </WeatherTemp>
           <Suggestions>
-            Morning {userData.user}. {weatherData.suggestions}
+            Morning {username}. {weatherData.suggestions}
           </Suggestions>
           <Footer>
             <SettingsdButton onPress={() => setModal(!isModal)}>
               <SettingsIcon source={settingsIcon} />
-            </SettingsdButton>
+              </SettingsdButton>
+
+              <PrimaryButton
+                onPress={() => {
+                  setWeatherData((prev) => {
+                    return {
+                      ...prev,
+                      suggestions: acts[Math.floor(Math.random() * 5)],
+                    }
+                  })
+                  console.log('i am pressed')
+                }}
+              >
+                <TextButton>
+                  Show me something else
+                </TextButton>
+              </PrimaryButton>
+
           </Footer>
         </>
       )}

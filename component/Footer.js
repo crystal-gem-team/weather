@@ -50,10 +50,7 @@ export const Footer = ({children}) => {
   return (
     <FooterButton>
         {children}
-     
-      <PrimaryButton>
-        <TextButton>Something else</TextButton>
-      </PrimaryButton>
+
     </FooterButton>
   );
 };
