@@ -1,11 +1,26 @@
-import { useEffect, useState } from 'react';
-import { Text, View, Pressable } from 'react-native';
 import { Auth } from 'aws-amplify';
+import { useEffect, useState } from 'react';
+import { Text, View, Pressable, useColorScheme, Appearance } from 'react-native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import styled from 'styled-components/native';
 
+import { Date } from '../Components/Date';
+import { WeatherType } from '../Components/WeatherType';
+import { WeatherTemp } from '../Components/WeatherTemp';
+
+import { WEATHER_THEME } from '../utils/weather';
+
 const Background = styled.View`
+  position: relative;
+  padding-top: 72px;
+  width: 100%;
   height: 100%;
-  background: #225350;
+  background: ${(props) => props.theme || 'red'};
+`;
+
+const Header = styled.View`
+  width: 100%;
+  display: flex;
 `;
 
 const Title = styled.Text`
@@ -24,24 +39,26 @@ export const Homepage = () => {
   };
 
   useEffect(() => {
-    setWeatherData({ main: { temp: '25°' } });
-    // fetch(
-    //   `https://api.openweathermap.org/data/2.5/weather?lat=40.748004761173796&lon=-73.9972450826255&appid=9d078590b75f76a8f744905541a91990&units=metric`
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     setWeatherData(data);
-    //   });
+    setWeatherData({
+      date: 'April 9, 2020',
+      temp: '75°',
+      min: '24°',
+      max: '99°',
+      type: 'cloudy',
+    });
   }, []);
 
+  console.log(weatherData.type);
+
   return (
-    <View style={styles.container}>
-      <Pressable style={styles.button} onPress={() => signOut()}>
-        <Text style={styles.buttonText}>Sign out</Text>
-      </Pressable>
-      <Text style={styles.text}>Current Temperature: </Text>
-      <Text style={styles.text}>{weatherData.main ? weatherData.main.temp : '...loading'} </Text>
-    </View>
+    <Background theme='#06805D'>
+      <View>
+        <Date>{weatherData.date}</Date>
+        <WeatherType>{weatherData.type}</WeatherType>
+      </View>
+      <WeatherTemp location='New York' min={weatherData.min} max={weatherData.max}>
+        {weatherData.temp}
+      </WeatherTemp>
+    </Background>
   );
 };

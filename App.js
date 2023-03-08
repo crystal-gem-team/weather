@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     color: 'white',
   },
   button: {
-    backgroundColor: '#ff9900',
+    backgroundColor: '#06805D',
     padding: 10,
     borderRadius: 6,
   },
@@ -39,12 +39,26 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name='Main' component={Homepage} options={{ title: 'fun.shine' }} />
-      </Stack.Navigator>
-      <StatusBar style='auto' />
-    </NavigationContainer>
+    <>
+      <StatusBar barStyle={'dark-content'} />
+      <Homepage />
+    </>
+
+    // <NavigationContainer>
+    //   <Stack.Navigator>
+    //     <Stack.Screen
+    //       name='Main'
+    //       component={Homepage}
+    //       options={{
+    //         title: 'fun.shine',
+    //         headerStyle: {
+    //           backgroundColor: '#00f',
+    //         },
+    //       }}
+    //     />
+    //   </Stack.Navigator>
+    // <StatusBar style='auto' />
+    // </NavigationContainer>
   );
 }
 
