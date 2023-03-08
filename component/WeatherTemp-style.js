@@ -9,6 +9,7 @@ export const Location = styled.Text`
   font-weight: 700;
   margin-bottom: -12px;
   color: #fff;
+  z-index: 2;
 `;
 
 export const Container = styled.View`
@@ -22,7 +23,6 @@ export const Border = styled.View`
   margin-left: 16px;
   height: 1px;
   background: #fff;
-  margin-top: 12px;
 `;
 
 export const Temperature = styled.Text`
@@ -38,8 +38,8 @@ export const Variations = styled.View`
   display: flex;
   flex-direction: row;
   width: 100%;
-  font-family: System;
   justify-content: space-between;
+  align-items: baseline;
   padding-left: 16px;
   padding-right: 16px;
 `;
@@ -49,7 +49,7 @@ export const MinTemperature = styled.Text`
   font-weight: 800;
   font-size: 24px;
   font-stretch: expanded;
-  color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.6);
 `;
 
 export const MaxTemperature = styled.Text`
@@ -58,4 +58,19 @@ export const MaxTemperature = styled.Text`
   font-size: 24px;
   font-stretch: expanded;
   color: #fff;
+`;
+
+export const BorderWrapper = styled.View`
+  padding-top: 12px;
+  padding-bottom: 16px;
+`;
+
+export const Icon = styled.Text`
+  font-family: System;
+  font-size: 36px;
+`;
+
+export const LocationIcon = styled.Image`
+  width: 16px;
+  height: 16px;
 `;
