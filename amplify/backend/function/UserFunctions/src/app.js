@@ -10,6 +10,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
 const axios = require('axios');
+const AWS = require('aws-sdk');
+
+
 
 // declare a new express app
 const app = express();
@@ -22,6 +25,25 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Headers', '*');
   next();
 });
+
+app.get('/user/activity', (req, res) => {
+  const docClient = new AWS.DynamoDB.DocumentClient();
+  const params = {
+    TableName: 'Funshine',
+    Key: {
+      'funshine': 'activity'
+    }
+
+  };
+  docClient.get(params, (err, data) => {
+    if (err) {
+      console.log('Error finding user:', err);
+    } else {
+      console.log('User found successfully:', data.Item.activity['rainy,hot'][0]);
+      res.json(data);
+    }
+  });
+})
 
 app.get('/user/weather', async function (req, res) {
   try {
@@ -43,25 +65,71 @@ app.get('/user/weather', async function (req, res) {
   }
 });
 
-app.get('/user', function (req, res) {
-  // get user settings
-  res.json({ success: 'get call succeed!', url: req.url });
+//user info from DB
+app.get('/user', (req, res) => {
+  const { user } = req.query;
+  const docClient = new AWS.DynamoDB.DocumentClient();
+  const params = {
+    TableName: 'Funshine',
+    Key: {
+      'funshine': user
+    }
+  }
+  docClient.get(params, (err, data) => {
+    if (err) {
+      console.log('error occured getting from DB for user, ', err);
+      res.json('error occured on backend fetching');
+    } else {
+      console.log('fetched data for user, ', data);
+      res.json(data.Item);
+    }
+  })
+  
 });
 
-app.post('/user', function (req, res) {
-  // post new user default setting
-  res.json({ success: 'post call succeed!', url: req.url });
-});
+app.post('/user', (req, res) => {
+  const { zip, scale, name, username } = req.body;
+  const docClient = new AWS.DynamoDB.DocumentClient();
+  const params = {
+    TableName: 'Funshine',
+    Item: {
+      'funshine': username,
+      zip: zip,
+      scale: scale,
+      name: name,
+    }
+  }
 
-app.put('/user', function (req, res) {
-  // change user default setting
-  res.json({ success: 'put call succeed!', url: req.url, body: req.body });
-});
+  docClient.put(params, (err, data) => {
+    if (err) {
+      console.log('error occured updating from DB for user, ', err);
+      res.json('error occured on backend fetching');
+    } else {
+      console.log('updated data for user, ', data);
+      res.json(data);
+    }
+  })
+})
 
-app.delete('/user', function (req, res) {
-  // delete user
-  res.json({ success: 'delete call succeed!', url: req.url });
-});
+// app.get('/user', function (req, res) {
+//   // get user settings
+//   res.json({ success: 'get call succeed!', url: req.url });
+// });
+
+// app.post('/user', function (req, res) {
+//   // post new user default setting
+//   res.json({ success: 'post call succeed!', url: req.url });
+// });
+
+// app.put('/user', function (req, res) {
+//   // change user default setting
+//   res.json({ success: 'put call succeed!', url: req.url, body: req.body });
+// });
+
+// app.delete('/user', function (req, res) {
+//   // delete user
+//   res.json({ success: 'delete call succeed!', url: req.url });
+// });
 
 app.use('*', (req, res) => {
   res.json({ error: 'wrong!', url: req.url });

@@ -1,11 +1,11 @@
 {
-  "httpMethod": "POST",
-  "path": "/item",
+  "httpMethod": "GET",
+  "path": "/user",
   "queryStringParameters": {
-    "limit": "10"
+    "user": "aribengiyat"
   },
   "headers": {
     "Content-Type": "application/json"
   },
-  "body": "{\"msg\":\"Hello from the event.json body\"}"
 }
+

@@ -51,8 +51,26 @@ export const Homepage = () => {
       scale: 'F',
     });
 
-    const api = API.get('funshineAPI', '/user/weather');
-    console.log(api);
+    // API.get('funshineAPI', '/user/weather')
+    //   .then((data) => {
+    //     console.log('got data from API');
+    //     console.log(data);
+    //   })
+    //   .catch((err) => {
+    //     console.log('err occured');
+    //     console.log(err);
+    //   });
+    
+
+    API.get('funshineAPI', '/user/test')
+      .then((data) => {
+        console.log('got data from API test');
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log('err occured');
+        console.log(err);
+      });
   }, []);
 
   return (
