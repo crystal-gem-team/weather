@@ -1,16 +1,22 @@
 const WEATHER_THEME = {
-  default: '#000',
-  cloudy: '#06805D',
+  Default: '#000',
+  Clouds: '#06805D',
+  Sun: '#D9B984',
+  Rain: '#0B61F1',
+  Windy: '#225350',
+  Thunder: '#000000',
+  Drizzle: '#523B65',
+  Snow: '#523B65',
+  Fog: '#687174',
 };
 
 const PLACEHOLDER_WEATHER = {
-  date: 'April 9, 2020',
-  temp: '75°',
-  min: '24°',
-  max: '99°',
-  type: 'cloudy',
-  suggestions:
-    'Today is the day you can show off your flatmate about these delicious cookies. Cloudy stay home day!',
+  date: 'Apr 9, 2020',
+  temp: '__',
+  min: '_',
+  max: '_',
+  type: 'Weathery',
+  suggestions: 'What can you do today...',
 };
 
 const PLACEHOLDER_USER = {

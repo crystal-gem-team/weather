@@ -26,30 +26,17 @@ import { Background, CloudVisual, Suggestions } from './Homepage-style';
 //
 
 export const Homepage = () => {
-  const [weatherData, setWeatherData] = useState({});
-  const [userData, setUserData] = useState({});
+  const [weatherData, setWeatherData] = useState(PLACEHOLDER_WEATHER);
+  const [userData, setUserData] = useState(PLACEHOLDER_USER);
+  const [color, setColor] = useState(String(WEATHER_THEME.Default));
   const [isModal, setModal] = useState(false);
-  const [color, setColor] = useState({ cloudy: '#06805D'})
-
-  
 
   useEffect(() => {
-    setWeatherData({
-      date: 'April 9, 2020',
-      temp: '75°',
-      min: '24°',
-      max: '99°',
-      type: 'cloudy',
-      suggestions:
-        'Today is the day you can show off your flatmate about these delicious cookies. Cloudy stay home day!',
-    });
-
-    setUserData({
-      user: 'Patrice',
-      location: 'New York',
-      scale: 'F',
-    });
-
+    API.get('funshineAPI', '/user/weather')
+      .then((data) => {
+        setWeatherData(data), setColor(WEATHER_THEME[weatherData.type]);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   const CloseSettingsButton = styled.Button`
@@ -58,37 +45,31 @@ export const Homepage = () => {
   `;
 
   return (
-    <Background theme={color.cloudy}>
-      {
-         isModal
-         ? <Settings>
-            <CloseSettingsButton 
-              onPress={() => setModal(!isModal)}
-              color="#fff"
-              title="close"
-            />
-          </Settings>
-         : 
-         <>
-      <View>
-        <Date>{weatherData.date}</Date>
-      </View>
-      <CloudVisual source={cloudsVisual} />
-      <WeatherType>{weatherData.type}</WeatherType>
-      <WeatherTemp location='New York' min={weatherData.min} max={weatherData.max}>
-        {weatherData.temp}
-      </WeatherTemp>
-      <Suggestions>
-        Morning {userData.user}. {weatherData.suggestions}
-      </Suggestions>
-
-      <Footer>
-      <SettingsdButton onPress={() => setModal(!isModal)}>
-        <SettingsIcon source={settingsIcon} />
-      </SettingsdButton>
-      </Footer>
-      </>
-      }
-      </Background>
+    <Background theme={color}>
+      {isModal ? (
+        <Settings>
+          <CloseSettingsButton onPress={() => setModal(!isModal)} color='#fff' title='close' />
+        </Settings>
+      ) : (
+        <>
+          <View>
+            <Date>{weatherData.date}</Date>
+          </View>
+          <CloudVisual source={cloudsVisual} />
+          <WeatherType>{weatherData.type}</WeatherType>
+          <WeatherTemp location='New York' min={weatherData.min + '°'} max={weatherData.max + '°'}>
+            {weatherData.temp + '°'}
+          </WeatherTemp>
+          <Suggestions>
+            Morning {userData.user}. {weatherData.suggestions}
+          </Suggestions>
+          <Footer>
+            <SettingsdButton onPress={() => setModal(!isModal)}>
+              <SettingsIcon source={settingsIcon} />
+            </SettingsdButton>
+          </Footer>
+        </>
+      )}
+    </Background>
   );
 };
