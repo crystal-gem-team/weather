@@ -35,7 +35,7 @@ app.get('/user/weather', async function (req, res) {
     body.min = response.main.temp_min;
     body.max = response.main.temp_max;
     body.type = response.weather[0].main;
-    body.date = '';
+    body.date = new Date().toDateString();
 
     res.status(200).json(body);
   } catch (error) {

@@ -11,8 +11,6 @@ import { WeatherType } from '../component/WeatherType';
 import { WeatherTemp } from '../component/WeatherTemp';
 import { Footer } from '../component/Footer';
 
-import { WEATHER_THEME } from '../utils/weather';
-
 // to make a call to using funshineAPI
 //
 // API.get('funshineAPI', '/user')
@@ -20,6 +18,7 @@ import { WEATHER_THEME } from '../utils/weather';
 // for now path to get weather '/user/weather'
 
 import cloudsVisual from '../assets/clouds.png';
+import { Background, CloudVisual, Suggestions } from './Homepage-style';
 
 //
 
@@ -51,6 +50,9 @@ export const Homepage = () => {
       location: 'New York',
       scale: 'F',
     });
+
+    const api = API.get('funshineAPI', '/user/weather');
+    console.log(api);
   }, []);
 
   return (
