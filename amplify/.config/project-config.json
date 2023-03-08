@@ -8,7 +8,7 @@
   "javascript": {
     "framework": "react-native",
     "config": {
-      "SourceDir": "/Users/dnvt/Developer/Codesmith/scratch-projects/weather",
+      "SourceDir": "src",
       "DistributionDir": "/",
       "BuildCommand": "npm run-script build",
       "StartCommand": "npm run-script start"
