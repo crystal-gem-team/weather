@@ -4,18 +4,12 @@ import { Text, View, Pressable, useColorScheme, Appearance, Button, Image } from
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { API } from 'aws-amplify';
 
-import { WEATHER_THEME } from '../utils/weather';
+import { WEATHER_THEME, PLACEHOLDER_WEATHER, PLACEHOLDER_USER } from '../utils/weather';
 
 import { Date } from '../component/Date';
 import { WeatherType } from '../component/WeatherType';
 import { WeatherTemp } from '../component/WeatherTemp';
 import { Footer } from '../component/Footer';
-
-// to make a call to using funshineAPI
-//
-// API.get('funshineAPI', '/user')
-//
-// for now path to get weather '/user/weather'
 
 import cloudsVisual from '../assets/clouds.png';
 import { Background, CloudVisual, Suggestions } from './Homepage-style';
@@ -23,16 +17,9 @@ import { Background, CloudVisual, Suggestions } from './Homepage-style';
 //
 
 export const Homepage = () => {
-  const [weatherData, setWeatherData] = useState({});
-  const [userData, setUserData] = useState({});
-
-  const signOut = async () => {
-    try {
-      await Auth.signOut({ global: true });
-    } catch (error) {
-      console.log('error signing out: ', error);
-    }
-  };
+  const [weatherData, setWeatherData] = useState(PLACEHOLDER_WEATHER);
+  const [userData, setUserData] = useState(PLACEHOLDER_USER);
+  const [color, setColor] = useState({ cloudy: '#06805D' });
 
   useEffect(() => {
     setWeatherData({
@@ -71,10 +58,13 @@ export const Homepage = () => {
         console.log('err occured');
         console.log(err);
       });
+    API.get('funshineAPI', '/user/weather')
+      .then((data) => setWeatherData(data))
+      .catch((error) => console.log(error));
   }, []);
 
   return (
-    <Background theme='#06805D'>
+    <Background theme={color.cloudy}>
       <View>
         <Date>{weatherData.date}</Date>
       </View>
