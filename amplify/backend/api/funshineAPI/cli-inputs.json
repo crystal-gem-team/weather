@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "paths": {
+    "/weather": {
+      "name": "/weather",
+      "lambdaFunction": "getWeather",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/user": {
+      "name": "/user",
+      "lambdaFunction": "UserFunctions",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

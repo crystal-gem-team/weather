@@ -9,7 +9,8 @@
       "UnauthRoleName": "amplify-funshine-dev-185842-unauthRole",
       "StackName": "amplify-funshine-dev-185842",
       "StackId": "arn:aws:cloudformation:us-east-1:719724081330:stack/amplify-funshine-dev-185842/d3978cf0-bc7a-11ed-95ec-0a936c5cf1bd",
-      "AmplifyAppId": "d3quaxfhjifq1s"
+      "AmplifyAppId": "d3quaxfhjifq1s",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-funshine-dev-185842-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
