@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
 
 export const Background = styled.View`
+position: relative;
   display: flex;
   justify-content: space-between;
-  position: relative;
   padding: 72px 0 40px;
   width: 100%;
   height: 100%;

@@ -18,7 +18,7 @@
       "function": {
         "UserFunctions": {
           "deploymentBucketName": "amplify-funshine-dev-185842-deployment",
-          "s3Key": "amplify-builds/UserFunctions-4a496a35625a36642b39-build.zip"
+          "s3Key": "amplify-builds/UserFunctions-324c6a73787151736b6d-build.zip"
         }
       }
     }

@@ -9,7 +9,10 @@ import { WEATHER_THEME, PLACEHOLDER_WEATHER, PLACEHOLDER_USER } from '../utils/w
 import { Date } from '../component/Date';
 import { WeatherType } from '../component/WeatherType';
 import { WeatherTemp } from '../component/WeatherTemp';
-import { Footer } from '../component/Footer';
+import { Footer, SettingsdButton, SettingsIcon } from '../component/Footer';
+import { Settings } from '../path/Settings';
+import settingsIcon from '../assets/settings.png';
+import styled from 'styled-components';
 
 import cloudsVisual from '../assets/clouds.png';
 import { Background, CloudVisual, Suggestions } from './Homepage-style';
@@ -20,6 +23,7 @@ export const Homepage = () => {
   const [weatherData, setWeatherData] = useState(PLACEHOLDER_WEATHER);
   const [userData, setUserData] = useState(PLACEHOLDER_USER);
   const [color, setColor] = useState({ cloudy: '#06805D' });
+   const [isModal, setModal] = useState(false);
 
   useEffect(() => {
     API.get('funshineAPI', '/user/weather')
@@ -27,20 +31,42 @@ export const Homepage = () => {
       .catch((error) => console.log(error));
   }, []);
 
+  const CloseSettingsButton = styled.Button`
+    position: absolute;
+    left: 10px;
+  `;
+
   return (
     <Background theme={color.cloudy}>
-      <View>
-        <Date>{weatherData.date}</Date>
-      </View>
-      <CloudVisual source={cloudsVisual} />
-      <WeatherType>{weatherData.type}</WeatherType>
-      <WeatherTemp location='New York' min={weatherData.min} max={weatherData.max}>
-        {weatherData.temp}
-      </WeatherTemp>
-      <Suggestions>
-        Morning {userData.user}. {weatherData.suggestions}
-      </Suggestions>
-      <Footer />
-    </Background>
+      {
+         isModal
+         ? <Settings>
+            <CloseSettingsButton 
+              onPress={() => setModal(!isModal)}
+              color="#fff"
+              title="close"
+            />
+          </Settings>
+         : 
+         <>
+          <View>
+            <Date>{weatherData.date}</Date>
+          </View>
+          <CloudVisual source={cloudsVisual} />
+          <WeatherType>{weatherData.type}</WeatherType>
+          <WeatherTemp location='New York' min={weatherData.min} max={weatherData.max}>
+            {weatherData.temp}
+          </WeatherTemp>
+          <Suggestions>
+            Morning {userData.user}. {weatherData.suggestions}
+          </Suggestions>
+          <Footer>
+            <SettingsdButton onPress={() => setModal(!isModal)}>
+              <SettingsIcon source={settingsIcon} />
+            </SettingsdButton>
+          </Footer>
+       </>
+      }
+      </Background>
   );
 };
