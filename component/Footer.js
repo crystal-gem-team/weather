@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import settingsIcon from '../assets/settings.png';
 
 export const FooterButton = styled.View`
   display: flex;
@@ -46,12 +45,12 @@ export const SettingsIcon = styled.Image`
   height: 27px;
 `;
 
-export const Footer = () => {
+export const Footer = ({children}) => {
+  console.log(children);
   return (
     <FooterButton>
-      <SettingsdButton>
-        <SettingsIcon source={settingsIcon} />
-      </SettingsdButton>
+        {children}
+     
       <PrimaryButton>
         <TextButton>Something else</TextButton>
       </PrimaryButton>
