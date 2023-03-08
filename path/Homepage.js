@@ -28,13 +28,13 @@ import { Background, CloudVisual, Suggestions } from './Homepage-style';
 export const Homepage = () => {
   const [weatherData, setWeatherData] = useState(PLACEHOLDER_WEATHER);
   const [userData, setUserData] = useState(PLACEHOLDER_USER);
-  const [color, setColor] = useState(String(WEATHER_THEME.Default));
+  const [weatherTheme, setWeatherTheme] = useState(WEATHER_THEME.Default);
   const [isModal, setModal] = useState(false);
 
   useEffect(() => {
     API.get('funshineAPI', '/user/weather')
       .then((data) => {
-        setWeatherData(data), setColor(WEATHER_THEME[weatherData.type]);
+        setWeatherData(data), setWeatherTheme(WEATHER_THEME[weatherData.type]);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -45,7 +45,7 @@ export const Homepage = () => {
   `;
 
   return (
-    <Background theme={color}>
+    <Background theme={weatherTheme || '#123'}>
       {isModal ? (
         <Settings>
           <CloseSettingsButton onPress={() => setModal(!isModal)} color='#fff' title='close' />
