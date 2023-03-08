@@ -5,8 +5,8 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/
 import styled from 'styled-components/native';
 
 import { Date } from '../component/Date';
-import { WeatherType } from '../Components/WeatherType';
-import { WeatherTemp } from '../Components/WeatherTemp';
+import { WeatherType } from '../component/WeatherType';
+import { WeatherTemp } from '../component/WeatherTemp';
 
 import { WEATHER_THEME } from '../utils/weather';
 
