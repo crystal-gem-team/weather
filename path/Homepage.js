@@ -9,7 +9,10 @@ import { WEATHER_THEME } from '../utils/weather';
 import { Date } from '../component/Date';
 import { WeatherType } from '../component/WeatherType';
 import { WeatherTemp } from '../component/WeatherTemp';
-import { Footer } from '../component/Footer';
+import { Footer, SettingsdButton, SettingsIcon } from '../component/Footer';
+import { Settings } from '../path/Settings';
+import settingsIcon from '../assets/settings.png';
+import styled from 'styled-components';
 
 // to make a call to using funshineAPI
 //
@@ -25,14 +28,10 @@ import { Background, CloudVisual, Suggestions } from './Homepage-style';
 export const Homepage = () => {
   const [weatherData, setWeatherData] = useState({});
   const [userData, setUserData] = useState({});
+  const [isModal, setModal] = useState(false);
+  const [color, setColor] = useState({ cloudy: '#06805D'})
 
-  const signOut = async () => {
-    try {
-      await Auth.signOut({ global: true });
-    } catch (error) {
-      console.log('error signing out: ', error);
-    }
-  };
+  
 
   useEffect(() => {
     setWeatherData({
@@ -51,12 +50,26 @@ export const Homepage = () => {
       scale: 'F',
     });
 
-    const api = API.get('funshineAPI', '/user/weather');
-    console.log(api);
   }, []);
 
+  const CloseSettingsButton = styled.Button`
+    position: absolute;
+    left: 10px;
+  `;
+
   return (
-    <Background theme='#06805D'>
+    <Background theme={color.cloudy}>
+      {
+         isModal
+         ? <Settings>
+            <CloseSettingsButton 
+              onPress={() => setModal(!isModal)}
+              color="#fff"
+              title="close"
+            />
+          </Settings>
+         : 
+         <>
       <View>
         <Date>{weatherData.date}</Date>
       </View>
@@ -68,7 +81,14 @@ export const Homepage = () => {
       <Suggestions>
         Morning {userData.user}. {weatherData.suggestions}
       </Suggestions>
-      <Footer />
-    </Background>
+
+      <Footer>
+      <SettingsdButton onPress={() => setModal(!isModal)}>
+        <SettingsIcon source={settingsIcon} />
+      </SettingsdButton>
+      </Footer>
+      </>
+      }
+      </Background>
   );
 };
