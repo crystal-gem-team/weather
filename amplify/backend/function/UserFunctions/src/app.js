@@ -12,9 +12,6 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 const axios = require('axios');
 const AWS = require('aws-sdk');
 
-
-
-
 // declare a new express app
 const app = express();
 app.use(bodyParser.json());
@@ -32,19 +29,21 @@ app.get('/user/activity', (req, res) => {
   const params = {
     TableName: 'Funshine',
     Key: {
-      'funshine': 'activity'
-    }
-
+      funshine: 'activity',
+    },
   };
   docClient.get(params, (err, data) => {
     if (err) {
       console.log('Error finding user:', err);
     } else {
-      console.log('User found successfully:', data.Item.activity['rainy,hot'][0]);
+      console.log(
+        'User found successfully:',
+        data.Item.activity['rainy,hot'][0]
+      );
       res.json(data);
     }
   });
-})
+});
 
 app.get('/user/weather', async function (req, res) {
   try {
@@ -54,11 +53,20 @@ app.get('/user/weather', async function (req, res) {
     response = response.data;
 
     let body = {};
-    body.temp = response.main.temp;
-    body.min = response.main.temp_min;
-    body.max = response.main.temp_max;
+    body.temp = Math.round(Number(response.main.temp));
+    body.min = Math.round(Number(response.main.temp_min));
+    body.max = Math.round(Number(response.main.temp_max));
     body.type = response.weather[0].main;
-    body.date = new Date().toDateString();
+    body.date = new Date().toDateString().split(' ');
+
+    body.date.shift();
+    body.date = body.date
+      .map((e, i) => {
+        if (i === 2) {
+          return ', ' + e;
+        } else return e;
+      })
+      .join(' ');
 
     res.status(200).json(body);
   } catch (error) {
@@ -73,9 +81,9 @@ app.get('/user', (req, res) => {
   const params = {
     TableName: 'Funshine',
     Key: {
-      'funshine': user
-    }
-  }
+      funshine: user,
+    },
+  };
   docClient.get(params, (err, data) => {
     if (err) {
       console.log('error occured getting from DB for user, ', err);
@@ -84,8 +92,7 @@ app.get('/user', (req, res) => {
       console.log('fetched data for user, ', data);
       res.json(data.Item);
     }
-  })
-  
+  });
 });
 
 app.post('/user', (req, res) => {
@@ -94,12 +101,12 @@ app.post('/user', (req, res) => {
   const params = {
     TableName: 'Funshine',
     Item: {
-      'funshine': username,
+      funshine: username,
       zip: zip,
       scale: scale,
       name: name,
-    }
-  }
+    },
+  };
 
   docClient.put(params, (err, data) => {
     if (err) {
@@ -109,8 +116,8 @@ app.post('/user', (req, res) => {
       console.log('updated data for user, ', data);
       res.json(data);
     }
-  })
-})
+  });
+});
 
 // app.get('/user', function (req, res) {
 //   // get user settings
