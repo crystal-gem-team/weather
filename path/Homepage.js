@@ -4,7 +4,7 @@ import { Text, View, Pressable, useColorScheme, Appearance } from 'react-native'
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import styled from 'styled-components/native';
 
-import { Date } from '../Components/Date';
+import { Date } from '../component/Date';
 import { WeatherType } from '../Components/WeatherType';
 import { WeatherTemp } from '../Components/WeatherTemp';
 
