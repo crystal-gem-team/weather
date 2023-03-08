@@ -2,6 +2,7 @@ import { Auth } from 'aws-amplify';
 import { useEffect, useState } from 'react';
 import { Text, View, Pressable, useColorScheme, Appearance, Button, Image } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { API } from 'aws-amplify';
 
 import { WEATHER_THEME } from '../utils/weather';
 
@@ -10,13 +11,13 @@ import { WeatherType } from '../component/WeatherType';
 import { WeatherTemp } from '../component/WeatherTemp';
 import { Footer } from '../component/Footer';
 
-import { Background, CloudVisual, Suggestions } from './Homepage-style';
-import {
-  Location,
-  MaxTemperature,
-  MinTemperature,
-  Variations,
-} from '../component/WeatherTemp-style';
+import { WEATHER_THEME } from '../utils/weather';
+
+// to make a call to using funshineAPI
+//
+// API.get('funshineAPI', '/user')
+//
+// for now path to get weather '/user/weather'
 
 import cloudsVisual from '../assets/clouds.png';
 
@@ -51,8 +52,6 @@ export const Homepage = () => {
       scale: 'F',
     });
   }, []);
-
-  console.log(weatherData.type);
 
   return (
     <Background theme='#06805D'>
