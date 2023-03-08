@@ -1,15 +1,25 @@
 import React, { useState } from 'react';
-import { Modal, Text, View, Switch, SafeAreaView, TextInput, Button, StyleSheet, Pressable } from 'react-native';
+import {
+  Modal,
+  Text,
+  View,
+  Switch,
+  SafeAreaView,
+  TextInput,
+  Button,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
 import { Background } from './Homepage-style';
 import styled from 'styled-components';
 import { Auth } from 'aws-amplify';
 
-export const Settings = ({children}) => {
+export const Settings = ({ children }) => {
   const [isEnabled, setIsEnabled] = useState(false);
-  const isCelsius = () => setIsEnabled(previousState => !previousState);
+  const isCelsius = () => setIsEnabled((previousState) => !previousState);
   const [name, setName] = useState('');
   const [zip, setZip] = useState('');
-  const [color, setColor] = useState({ cloudy: '#06805D'})
+  const [color, setColor] = useState({ cloudy: '#06805D' });
   console.log(zip);
   console.log(name);
 
@@ -77,7 +87,6 @@ export const Settings = ({children}) => {
     font-size: 20px;
     font-weight: 600;
     color: #fff;
-
   `;
 
   const TitleText = styled.Text`
@@ -110,65 +119,59 @@ export const Settings = ({children}) => {
     position: relative;
   `;
 
-
   return (
     <MainView>
-              {children}
+      {children}
       {/* <Modal> */}
       {/* <Background theme={color.cloudy}> */}
       <SafeAreaView>
         <SettingsView>
           <View>
-       
-          
             <TitleView>
-            <TitleText>Settings</TitleText>
+              <TitleText>Settings</TitleText>
             </TitleView>
             <PreferencesView>
-            <SettingsText>fancy an alias?</SettingsText>
-            <Input
-              onChangeText={setName}
-              placeholder="new name, new you"
-              value={name}
-            />
-            <SettingsText>enter zip to change your location</SettingsText>
-            <Input
-              onChangeText={setZip}
-              value={zip}
-              placeholder="get me outta here"
-              keyboardType="numeric"
-            />
-            <SettingsText>change temperature scale:</SettingsText>
-            <SettingsText>fahrenheit
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={isCelsius}
-              value={isEnabled}
+              <SettingsText>fancy an alias?</SettingsText>
+              <Input onChangeText={setName} placeholder='new name, new you' value={name} />
+              <SettingsText>enter zip to change your location</SettingsText>
+              <Input
+                onChangeText={setZip}
+                value={zip}
+                placeholder='get me outta here'
+                keyboardType='numeric'
               />
-              celsius
+              <SettingsText>change temperature scale:</SettingsText>
+              <SettingsText>
+                fahrenheit
+                <Switch
+                  trackColor={{ false: '#767577', true: '#81b0ff' }}
+                  thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor='#3e3e3e'
+                  onValueChange={isCelsius}
+                  value={isEnabled}
+                />
+                celsius
               </SettingsText>
               <SubmitButton
-              onPress={() => {
-                return {
-                  name: name,
-                  zip: zip,
-                  scale: isCelsius ? 'celsius' : 'fahrenheit'
-                }
-              }}>
+                onPress={() => {
+                  return {
+                    name: name,
+                    zip: zip,
+                    scale: isCelsius ? 'celsius' : 'fahrenheit',
+                  };
+                }}
+              >
                 <TextButton>update my life</TextButton>
               </SubmitButton>
               <SignOutButton onPress={() => signOut()}>
                 <TextButton>Sign Out</TextButton>
               </SignOutButton>
-            
             </PreferencesView>
           </View>
         </SettingsView>
-        </SafeAreaView>
+      </SafeAreaView>
       {/* </Background> */}
       {/* </Modal> */}
     </MainView>
-  )
+  );
 };
