@@ -22,12 +22,14 @@ import { Background, CloudVisual, Suggestions } from './Homepage-style';
 export const Homepage = () => {
   const [weatherData, setWeatherData] = useState(PLACEHOLDER_WEATHER);
   const [userData, setUserData] = useState(PLACEHOLDER_USER);
-  const [color, setColor] = useState({ cloudy: '#06805D' });
-   const [isModal, setModal] = useState(false);
+  const [color, setColor] = useState(String(WEATHER_THEME.Default));
+  const [isModal, setModal] = useState(false);
 
   useEffect(() => {
     API.get('funshineAPI', '/user/weather')
-      .then((data) => setWeatherData(data))
+      .then((data) => {
+        setWeatherData(data), setColor(WEATHER_THEME[weatherData.type]);
+      })
       .catch((error) => console.log(error));
   }, []);
 
@@ -37,25 +39,20 @@ export const Homepage = () => {
   `;
 
   return (
-    <Background theme={color.cloudy}>
-      {
-         isModal
-         ? <Settings>
-            <CloseSettingsButton 
-              onPress={() => setModal(!isModal)}
-              color="#fff"
-              title="close"
-            />
-          </Settings>
-         : 
-         <>
+    <Background theme={color}>
+      {isModal ? (
+        <Settings>
+          <CloseSettingsButton onPress={() => setModal(!isModal)} color='#fff' title='close' />
+        </Settings>
+      ) : (
+        <>
           <View>
             <Date>{weatherData.date}</Date>
           </View>
           <CloudVisual source={cloudsVisual} />
           <WeatherType>{weatherData.type}</WeatherType>
-          <WeatherTemp location='New York' min={weatherData.min} max={weatherData.max}>
-            {weatherData.temp}
+          <WeatherTemp location='New York' min={weatherData.min + '°'} max={weatherData.max + '°'}>
+            {weatherData.temp + '°'}
           </WeatherTemp>
           <Suggestions>
             Morning {userData.user}. {weatherData.suggestions}
@@ -65,8 +62,8 @@ export const Homepage = () => {
               <SettingsIcon source={settingsIcon} />
             </SettingsdButton>
           </Footer>
-       </>
-      }
-      </Background>
+        </>
+      )}
+    </Background>
   );
 };
