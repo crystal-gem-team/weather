@@ -12,10 +12,10 @@ Auth.currentCredentials().then((credentials) => {
     secretAccessKey: credentials.secretAccessKey,
     sessionToken: credentials.sessionToken,
     region: awsconfig.aws_cognito_region, 
-    // endpoint: 'https://dynamodb.us-east-1.amazonaws.com',
-  });
+  })
   AWS.config.update(awsConfig);
 });
+
 
 
 
@@ -47,22 +47,16 @@ export const Homepage = () => {
     const docClient = new AWS.DynamoDB.DocumentClient();
     const params = {
       TableName: 'Funshine',
-      // Item: {
-      //   funshine: '00002',
-      //   username: 'tes2',
-      //   zipcode: '11218',
-      //   unit: 'celsius',
-      //   activities: ['dance', 'museum', 'club', 'fun']
-      // }
       Key: {
-        funshine: '00002'
+        'funshine': 'activity'
       }
+  
     };
     docClient.get(params, (err, data) => {
       if (err) {
         console.log('Error finding user:', err);
       } else {
-        console.log('User found successfully:', data.Item.activities[3]);
+        console.log('User found successfully:', data.Item.activity['rainy,hot']);
       }
     });
   };
