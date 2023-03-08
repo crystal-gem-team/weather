@@ -18,8 +18,12 @@ export const Settings = ({children}) => {
     height: 40px;
     margin: 12px;
     width: 150px;
-    borderWidth: 1px solid;
+    border-width: 1px solid;
     padding: 10px
+  `;
+
+  const SettingsText = styled.Text`
+    font-weight: bold;
   `;
 
 
@@ -29,21 +33,21 @@ export const Settings = ({children}) => {
       <SafeAreaView>
         <View>
           <View>
-            <Text>fancy an alias?</Text>
+            <SettingsText>fancy an alias?</SettingsText>
             <Input
               onChangeText={setName}
               placeholder="new name, new you"
               value={name}
             />
-            <Text>enter zip to change your location</Text>
+            <SettingsText>enter zip to change your location</SettingsText>
             <Input
               onChangeText={setZip}
               value={zip}
               placeholder="get me outta here"
               keyboardType="numeric"
             />
-            <Text>change your temperature scale preference</Text>
-            <Text>fahrenheit
+            <SettingsText>change your temperature scale preference:</SettingsText>
+            <SettingsText>fahrenheit
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
               thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
@@ -52,7 +56,7 @@ export const Settings = ({children}) => {
               value={isEnabled}
               />
               celsius
-              </Text>
+              </SettingsText>
               <Submit
               title="update my life"
               // update all preferences 
