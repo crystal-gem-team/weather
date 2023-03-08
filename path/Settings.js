@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Background } from './Homepage-style';
 import styled from 'styled-components';
-import { Auth } from 'aws-amplify';
+import { API, Auth } from 'aws-amplify';
 
 export const Settings = ({ children }) => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -20,8 +20,8 @@ export const Settings = ({ children }) => {
   const [name, setName] = useState('');
   const [zip, setZip] = useState('');
   const [color, setColor] = useState({ cloudy: '#06805D' });
-  console.log(zip);
-  console.log(name);
+  // console.log(zip);
+  // console.log(name);
 
   const signOut = async () => {
     try {
@@ -132,9 +132,9 @@ export const Settings = ({ children }) => {
             </TitleView>
             <PreferencesView>
               <SettingsText>fancy an alias?</SettingsText>
-              <Input onChangeText={setName} placeholder='new name, new you' value={name} />
+              <TextInput onChangeText={setName} placeholder='new name, new you' value={name} />
               <SettingsText>enter zip to change your location</SettingsText>
-              <Input
+              <TextInput
                 onChangeText={setZip}
                 value={zip}
                 placeholder='get me outta here'
@@ -154,11 +154,20 @@ export const Settings = ({ children }) => {
               </SettingsText>
               <SubmitButton
                 onPress={() => {
-                  return {
-                    name: name,
-                    zip: zip,
-                    scale: isCelsius ? 'celsius' : 'fahrenheit',
-                  };
+                  Auth.currentAuthenticatedUser()
+                    .then((session) => {
+                      console.log('making request')
+                      const username = session.username;
+                      API.put('funshineAPI', '/user', {
+                        body: {
+                          name: name,
+                          zip: zip,
+                          scale: isCelsius ? 'celsius' : 'fahrenheit',
+                          username: username
+                        }
+                      })
+                  })
+                 
                 }}
               >
                 <TextButton>update my life</TextButton>

@@ -1,11 +1,11 @@
 {
   "httpMethod": "GET",
-  "path": "/test",
+  "path": "/user/weather",
   "queryStringParameters": {
-    "limit": "10"
+    "user": "aribengiyat"
   },
   "headers": {
     "Content-Type": "application/json"
-  }
+  },
 }
 

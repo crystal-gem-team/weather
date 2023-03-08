@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Text, View, Pressable, useColorScheme, Appearance, Button, Image } from 'react-native';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { API } from 'aws-amplify';
-
+import AWS from 'aws-sdk';
 import { WEATHER_THEME, PLACEHOLDER_WEATHER, PLACEHOLDER_USER } from '../utils/weather';
 
 import { Date } from '../component/Date';
@@ -16,21 +16,40 @@ import styled from 'styled-components';
 
 import cloudsVisual from '../assets/clouds.png';
 import { Background, CloudVisual, Suggestions } from './Homepage-style';
+import awsconfig from '../src/aws-exports'
 
-//
+
+Auth.currentCredentials().then((credentials) => {
+  const awsConfig = new AWS.Config({
+    accessKeyId: credentials.accessKeyId,
+    secretAccessKey: credentials.secretAccessKey,
+    sessionToken: credentials.sessionToken,
+    region: awsconfig.aws_cognito_region,
+  })
+  AWS.config.update(awsConfig);
+});
+
+
 
 export const Homepage = () => {
   const [weatherData, setWeatherData] = useState(PLACEHOLDER_WEATHER);
   const [userData, setUserData] = useState(PLACEHOLDER_USER);
   const [weatherTheme, setWeatherTheme] = useState(WEATHER_THEME.Default);
   const [isModal, setModal] = useState(false);
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
-    API.get('funshineAPI', '/user/weather')
-      .then((data) => {
-        setWeatherData(data), setWeatherTheme(WEATHER_THEME[weatherData.type]);
-      })
-      .catch((error) => console.log(error));
+    Auth.currentAuthenticatedUser()
+      .then((session) => {
+        setUsername(session.username);
+        API.get('funshineAPI', '/user/weather', {queryStringParameters: {user: session.username}})
+          .then((data) => {
+            console.log('got this from the API, ', data)
+            setWeatherData(data), setWeatherTheme(WEATHER_THEME[weatherData.type]);
+          })
+          .catch((error) => console.log(error));
+    })
+    
   }, []);
 
   const CloseSettingsButton = styled.Button`

@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@types/aws-lambda@^8.10.92":
+  "integrity" "sha512-8HR9UjIKmoemEzE2BviVtFkeenxfbizSu8raFjnT2VXxguZZ2JTlNww7INOH7IA0J/zRa3TjOftkYq6hVNkxDA=="
+  "resolved" "https://registry.npmjs.org/@types/aws-lambda/-/aws-lambda-8.10.111.tgz"
+  "version" "8.10.111"
+
 "@vendia/serverless-express@^3.4.0":
   "integrity" "sha512-/UAAbi9qRjUtjRISt5MJ1sfhtrHb26hqQ0nvE5qhMLsAdR5H7ErBwPD8Q/v2OENKm0iWsGwErIZEg7ebUeFDjQ=="
   "resolved" "https://registry.npmjs.org/@vendia/serverless-express/-/serverless-express-3.4.0.tgz"
