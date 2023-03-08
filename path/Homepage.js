@@ -1,14 +1,31 @@
 import { Auth } from 'aws-amplify';
 import { useEffect, useState } from 'react';
-import { Text, View, Pressable, useColorScheme, Appearance } from 'react-native';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import {
+  Text,
+  View,
+  Pressable,
+  useColorScheme,
+  Appearance,
+} from 'react-native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from '@react-navigation/native';
 import styled from 'styled-components/native';
+import { API } from 'aws-amplify';
 
 import { Date } from '../component/Date';
 import { WeatherType } from '../component/WeatherType';
 import { WeatherTemp } from '../component/WeatherTemp';
 
 import { WEATHER_THEME } from '../utils/weather';
+
+// to make a call to using funshineAPI
+//
+// API.get('funshineAPI', '/user')
+//
+// for now path to get weather '/user/weather'
 
 const Background = styled.View`
   position: relative;
@@ -48,15 +65,17 @@ export const Homepage = () => {
     });
   }, []);
 
-  console.log(weatherData.type);
-
   return (
-    <Background theme='#06805D'>
+    <Background theme="#06805D">
       <View>
         <Date>{weatherData.date}</Date>
         <WeatherType>{weatherData.type}</WeatherType>
       </View>
-      <WeatherTemp location='New York' min={weatherData.min} max={weatherData.max}>
+      <WeatherTemp
+        location="New York"
+        min={weatherData.min}
+        max={weatherData.max}
+      >
         {weatherData.temp}
       </WeatherTemp>
     </Background>
